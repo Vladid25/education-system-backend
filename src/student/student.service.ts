@@ -17,6 +17,7 @@ export class StudentService {
     student.firstName = createStudentDto.firstName;
     student.lastName = createStudentDto.lastName;
     student.email = createStudentDto.email;
+    student.password = createStudentDto.password;
     return this.studentRepository.save(student);
   }
 
@@ -33,6 +34,7 @@ export class StudentService {
     student.firstName = updateStudentDto.firstName;
     student.lastName = updateStudentDto.lastName;
     student.email = updateStudentDto.email;
+    student.password = updateStudentDto.password;
     student.id = id;
     return this.studentRepository.save(student);
   }

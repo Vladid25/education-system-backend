@@ -13,4 +13,7 @@ export class Student {
   
     @Column({ type: 'varchar', length: 40 })
     email: string;
+        
+    @Column({ type: 'varchar',length: 20 })
+    password: string;
 }
