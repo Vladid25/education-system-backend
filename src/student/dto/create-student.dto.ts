@@ -6,7 +6,7 @@ import {
     MinLength,
   } from 'class-validator';  
 
-  const passwordRegEx =
+  export const passwordRegEx =
   /^(?=.*[a-z])(?=.*d)[A-Za-zd@$!%*?&]{8,20}$/;
 
 export class CreateStudentDto {
