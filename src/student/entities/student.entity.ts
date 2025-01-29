@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Enrollment } from "src/entrollment/entities/entrollment.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Student {
@@ -16,4 +17,8 @@ export class Student {
         
     @Column({ type: 'varchar',length: 20 })
     password: string;
+    
+    @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+    enrollments: Enrollment[];
+
 }

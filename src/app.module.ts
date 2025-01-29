@@ -7,6 +7,8 @@ import { StudentModule } from './student/student.module';
 import { Student } from './student/entities/student.entity';
 import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
+import { EntrollmentModule } from './entrollment/entrollment.module';
+import { Enrollment } from './entrollment/entities/entrollment.entity';
 
 config();
 @Module({
@@ -17,13 +19,14 @@ config();
       port: 5432,
       password: process.env.DB_PASSWORD,
       username: 'postgres',
-      entities: [Student, Course],
+      entities: [Student, Course, Enrollment],
       database: process.env.DB_NAME,
       synchronize: true,
       logging: true,
     }),
     StudentModule,
     CourseModule,
+    EntrollmentModule,
 
   ],
   controllers: [AppController],

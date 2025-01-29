@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity } from "typeorm";
+import { Enrollment } from "src/entrollment/entities/entrollment.entity";
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
 
 @Entity()
 export class Course {
@@ -16,4 +17,7 @@ export class Course {
 
     @Column("date")
     startDate: Date;
+
+    @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+    enrollments: Enrollment[];
 }
