@@ -1,8 +1,12 @@
 import { Enrollment } from "src/entrollment/entities/entrollment.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+export enum UserRole {
+    TEACHER = "teacher",
+    STUDENT = "student",
+}
 @Entity()
-export class Student {
+export class User {
     @PrimaryGeneratedColumn()
     id: number;
   
@@ -17,7 +21,10 @@ export class Student {
         
     @Column({ type: 'varchar',length: 20 })
     password: string;
-    
+
+    @Column({type: "enum", enum: UserRole, default: UserRole.STUDENT})
+    role: UserRole;
+
     @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
     enrollments: Enrollment[];
 

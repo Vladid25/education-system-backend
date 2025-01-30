@@ -3,15 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from 'src/course/entities/course.entity';
 import { Repository } from 'typeorm';
 import { Enrollment } from './entities/entrollment.entity';
-import { Student } from 'src/student/entities/student.entity';
+import { User } from 'src/student/entities/student.entity';
 
 @Injectable()
 export class EntrollmentService {
     constructor(
         @InjectRepository(Enrollment)
         private readonly enrollmentRepo: Repository<Enrollment>,
-        @InjectRepository(Student)
-        private readonly userRepo: Repository<Student>,
+        @InjectRepository(User)
+        private readonly userRepo: Repository<User>,
         @InjectRepository(Course)
         private readonly courseRepo: Repository<Course>,
       ) {}

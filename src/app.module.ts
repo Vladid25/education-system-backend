@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
-import { StudentModule } from './student/student.module';
-import { Student } from './student/entities/student.entity';
+import { UserModule } from './student/student.module';
+import { User } from './student/entities/student.entity';
 import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
 import { EntrollmentModule } from './entrollment/entrollment.module';
@@ -19,12 +19,12 @@ config();
       port: 5432,
       password: process.env.DB_PASSWORD,
       username: 'postgres',
-      entities: [Student, Course, Enrollment],
+      entities: [User, Course, Enrollment],
       database: process.env.DB_NAME,
       synchronize: true,
       logging: true,
     }),
-    StudentModule,
+    UserModule,
     CourseModule,
     EntrollmentModule,
 

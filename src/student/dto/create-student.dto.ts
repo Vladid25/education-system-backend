@@ -5,11 +5,12 @@ import {
     Matches,
     MinLength,
   } from 'class-validator';  
+import { UserRole } from '../entities/student.entity';
 
   export const passwordRegEx =
   /^(?=.*[a-z])(?=.*d)[A-Za-zd@$!%*?&]{8,20}$/;
 
-export class CreateStudentDto {
+export class CreateUserDto {
     @IsString()
     @MinLength(2, { message: 'Name must have atleast 2 characters.' })
     @IsNotEmpty()
@@ -19,6 +20,10 @@ export class CreateStudentDto {
     @MinLength(2, { message: 'Lastname must have atleast 2 characters.' })
     @IsNotEmpty()
     lastName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    role: UserRole;
 
     @IsNotEmpty()
     @IsEmail({}, { message: 'Please provide valid Email.' })
