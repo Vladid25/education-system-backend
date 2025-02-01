@@ -1,5 +1,6 @@
 import { Course } from "src/course/entities/course.entity";
 import { Enrollment } from "src/entrollment/entities/entrollment.entity";
+import { Grade } from "src/grade/entities/grade.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum UserRole {
@@ -31,6 +32,8 @@ export class User {
 
     @OneToMany(() => Course, (course) => course.teacher)
     courses: Course[];
-
+    
+    @OneToMany(() => Grade, (grade) => grade.student)
+    grades: Grade[];
 
 }

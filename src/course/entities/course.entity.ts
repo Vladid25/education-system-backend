@@ -1,4 +1,5 @@
 import { Enrollment } from 'src/entrollment/entities/entrollment.entity';
+import { Grade } from 'src/grade/entities/grade.entity';
 import { User } from 'src/student/entities/student.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 
@@ -22,4 +23,7 @@ export class Course {
 
   @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
   enrollments: Enrollment[];
+
+  @OneToMany(() => Grade, (grade) => grade.course)
+  grades: Grade[];
 }
