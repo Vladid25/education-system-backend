@@ -1,23 +1,25 @@
-import { Enrollment } from "src/entrollment/entities/entrollment.entity";
-import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
+import { Enrollment } from 'src/entrollment/entities/entrollment.entity';
+import { User } from 'src/student/entities/student.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Course {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column("varchar", {length: 50, unique: true})
-    name: String;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column("varchar", {length: 50})
-    teacher: String;
+  @Column({ type: 'varchar', length: 50, unique: true })
+  name: string;
 
-    @Column("integer")
-    duration: number;
+  @ManyToOne(() => User, (user) => user.courses, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'teacherId' }) 
+  teacher: User;
 
-    @Column("date")
-    startDate: Date;
+  @Column({ type: 'integer' })
+  duration: number;
 
-    @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
-    enrollments: Enrollment[];
+  @Column({ type: 'date' })
+  startDate: Date;
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+  enrollments: Enrollment[];
 }

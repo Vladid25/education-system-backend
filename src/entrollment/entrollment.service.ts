@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from 'src/course/entities/course.entity';
 import { Repository } from 'typeorm';
 import { Enrollment } from './entities/entrollment.entity';
-import { User } from 'src/student/entities/student.entity';
+import { User, UserRole } from 'src/student/entities/student.entity';
 
 @Injectable()
 export class EntrollmentService {
@@ -19,7 +19,7 @@ export class EntrollmentService {
       async enroll(userId: number, courseId: number): Promise<Enrollment> {
         const user = await this.userRepo.findOne({ where: { id: userId } });
         if (!user) throw new NotFoundException('User not found');
-    
+        if(user.role!= UserRole.STUDENT)throw new NotAcceptableException("User must be student!")
         const course = await this.courseRepo.findOne({ where: { id: courseId } });
         if (!course) throw new NotFoundException('Course not found');
     

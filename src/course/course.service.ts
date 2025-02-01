@@ -4,21 +4,25 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
+import { UserService } from 'src/student/student.service';
 
 @Injectable()
 export class CourseService {
 
   constructor(
-    @InjectRepository(Course) private readonly courseRepository: Repository<Course>
+    @InjectRepository(Course) private readonly courseRepository: Repository<Course>,
+    private readonly userService: UserService
   ){}
 
-  create(createCourseDto: CreateCourseDto): Promise<Course> {
+  async create(createCourseDto: CreateCourseDto): Promise<Course> {
     const course = new Course();
 
     course.duration = createCourseDto.duration;
     course.name = createCourseDto.name;
-    course.startDate= createCourseDto.startDate;
-    course.teacher=createCourseDto.teacher;
+    course.startDate = createCourseDto.startDate;
+    
+    const teacher = await this.userService.findOne(createCourseDto.teacherId);
+    course.teacher = teacher;
 
     return this.courseRepository.save(course);
   }
@@ -31,13 +35,14 @@ export class CourseService {
     return this.courseRepository.findOneByOrFail({id})
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
+  async update(id: number, updateCourseDto: UpdateCourseDto) {
     const course = new Course();
 
     course.duration = updateCourseDto.duration;
     course.name = updateCourseDto.name;
     course.startDate= updateCourseDto.startDate;
-    course.teacher=updateCourseDto.teacher;
+    const teacher = await this.userService.findOne(updateCourseDto.teacherId);
+    course.teacher = teacher;
     course.id = id;
 
     return this.courseRepository.save(course);
