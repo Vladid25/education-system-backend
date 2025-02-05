@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { GradeService } from './grade.service';
 
 @Controller('grades')
@@ -18,5 +18,10 @@ export class GradeController {
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.gradeService.findOne(id);
+  }
+
+  @Get('report/:id')
+  async getStudentReport(@Param('id') studentId: number) {
+    return this.gradeService.generateStudentReport(studentId ? Number(studentId) : undefined);
   }
 }

@@ -35,6 +35,20 @@ export class CourseService {
     return this.courseRepository.findOneByOrFail({id})
   }
 
+  async findByTeacherLastNameOrCourseName(query: { teacherLastName?: string; name?: string }): Promise<Course[]> {
+    const qb = this.courseRepository.createQueryBuilder('course')
+      .leftJoinAndSelect('course.teacher', 'teacher');
+
+    if (query.teacherLastName) {
+      qb.andWhere('LOWER(teacher.lastName) LIKE LOWER(:teacherLastName)', { teacherLastName: `%${query.teacherLastName}%` });
+    }
+    if (query.name) {
+      qb.andWhere('LOWER(course.name) LIKE LOWER(:name)', { name: `%${query.name}%` });
+    }
+
+    return await qb.getMany();
+  }
+
   async update(id: number, updateCourseDto: UpdateCourseDto) {
     const course = new Course();
 
