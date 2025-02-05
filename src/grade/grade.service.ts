@@ -51,4 +51,28 @@ export class GradeService {
     return grade;
   }
 
+  async generateStudentReport(studentId?: number): Promise<any> {
+    const qb = this.gradeRepository.createQueryBuilder('grade')
+      .leftJoinAndSelect('grade.student', 'student')
+      .leftJoinAndSelect('grade.course', 'course')
+      .select([
+        'student.id AS studentId',
+        'student.firstName AS firstName',
+        'student.lastName AS lastName',
+        'course.id AS courseId',
+        'course.name AS courseName',
+        'ARRAY_AGG(grade.grade) AS grades', 
+        'AVG(grade.grade) AS averageScore',
+        'COUNT(grade.id) AS totalGrades'
+      ])
+      .groupBy('student.id, student.firstName, student.lastName, course.id, course.name');
+  
+    if (studentId) {
+      qb.where('student.id = :studentId', { studentId });
+    }
+  
+    return await qb.getRawMany();
+  }
+  
+
 }

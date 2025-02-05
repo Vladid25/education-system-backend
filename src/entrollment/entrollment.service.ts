@@ -40,4 +40,22 @@ export class EntrollmentService {
         await this.enrollmentRepo.remove(enrollment);
         return 'Unenrolled successfully';
       }
+
+  async getStudentCourses(studentId: number): Promise<Course[]> {
+    const enrollments = await this.enrollmentRepo.find({
+      where: { student: { id: studentId } },
+      relations: ['course'],
+    });
+
+    return enrollments.map(enrollment => enrollment.course);
+  }
+
+  async getStudentsByCourse(courseId: number): Promise<User[]> {
+    const enrollments = await this.enrollmentRepo.find({
+      where: { course: { id: courseId } },
+      relations: ['student'],
+    });
+
+    return enrollments.map(enrollment => enrollment.student);
+  }
 }
